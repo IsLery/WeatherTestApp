@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.today.TodayFragment">
+
+    <ImageView
+        android:id="@+id/weatherImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/precipitationImg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/locationTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weatherImg"
+        tools:text="Minsk, BY" />
+
+    <TextView
+        android:id="@+id/temperatureTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/locationTxt"
+        tools:text="20 C | Cloudy" />
+
+    <ImageView
+        android:id="@+id/humidityImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/precipitationImg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/precipitationImg"
+        tools:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/humidityTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/humidityImg"
+        app:layout_constraintStart_toStartOf="@id/humidityImg"
+        app:layout_constraintTop_toBottomOf="@id/humidityImg"
+        tools:text="40%" />
+
+    <ImageView
+        android:id="@+id/precipitationImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/pressureImg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/humidityImg"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineTop"
+        tools:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/precipitationTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/precipitationImg"
+        app:layout_constraintStart_toStartOf="@id/precipitationImg"
+        app:layout_constraintTop_toBottomOf="@id/precipitationImg"
+        tools:text="1.0 mm" />
+
+    <ImageView
+        android:id="@+id/pressureImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/precipitationImg"
+        app:layout_constraintTop_toTopOf="@+id/precipitationImg"
+        tools:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/pressureTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/pressureImg"
+        app:layout_constraintStart_toStartOf="@id/pressureImg"
+        app:layout_constraintTop_toBottomOf="@id/pressureImg"
+        tools:text="1019 hPa" />
+
+    <ImageView
+        android:id="@+id/windSpeedImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBottom"
+        app:layout_constraintEnd_toStartOf="@+id/windDirectionImg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/precipitationTxt"
+        tools:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/windSpeedTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/windSpeedImg"
+        app:layout_constraintStart_toStartOf="@id/windSpeedImg"
+        app:layout_constraintTop_toBottomOf="@id/windSpeedImg"
+        tools:text="20 km/h" />
+
+    <ImageView
+        android:id="@+id/windDirectionImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/windSpeedImg"
+        app:layout_constraintTop_toTopOf="@+id/windSpeedImg"
+        tools:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/windDirectionTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/windDirectionImg"
+        app:layout_constraintStart_toStartOf="@id/windDirectionImg"
+        app:layout_constraintTop_toBottomOf="@id/windDirectionImg"
+        tools:text="SE" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <Button
+        android:id="@+id/shareBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineBottom" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
