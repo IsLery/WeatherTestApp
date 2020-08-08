@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="icon_names_api">
+        <item>01d</item>
+        <item>01n</item>
+        <item>02d</item>
+        <item>02n</item>
+        <item>03d</item>
+        <item>03n</item>
+        <item>04d</item>
+        <item>04n</item>
+        <item>09d</item>
+        <item>09n</item>
+        <item>10d</item>
+        <item>10n</item>
+        <item>11d</item>
+        <item>11n</item>
+        <item>13d</item>
+        <item>13n</item>
+        <item>50d</item>
+        <item>50n</item>
+    </string-array>
+    <integer-array name="icon_local_resource">
+        <item>@drawable/ic_clear_day</item>
+        <item>@drawable/ic_clear_night</item>
+        <item>@drawable/ic_few_clouds_day</item>
+        <item>@drawable/ic_few_clouds_night</item>
+        <item>@drawable/ic_scattered_clouds</item>
+        <item>@drawable/ic_scattered_clouds</item>
+        <item>@drawable/ic_broken_clouds</item>
+        <item>@drawable/ic_broken_clouds</item>
+        <item>@drawable/ic_rain_shower</item>
+        <item>@drawable/ic_rain_shower</item>
+        <item>@drawable/ic_rain_day</item>
+        <item>@drawable/ic_rain_night</item>
+        <item>@drawable/ic_thunderstorm</item>
+        <item>@drawable/ic_thunderstorm</item>
+        <item>@drawable/ic_snow</item>
+        <item>@drawable/ic_snow</item>
+        <item>@drawable/ic_mist</item>
+        <item>@drawable/ic_mist</item>
+    </integer-array>
+</resources>

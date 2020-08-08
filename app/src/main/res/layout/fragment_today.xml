@@ -43,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/precipitationImg"
-        tools:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_humidity" />
 
     <TextView
         android:id="@+id/humidityTxt"
@@ -62,7 +62,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/humidityImg"
         app:layout_constraintTop_toBottomOf="@+id/guidelineTop"
-        tools:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_drop" />
 
     <TextView
         android:id="@+id/precipitationTxt"
@@ -81,7 +81,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/precipitationImg"
         app:layout_constraintTop_toTopOf="@+id/precipitationImg"
-        tools:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_pressure" />
 
     <TextView
         android:id="@+id/pressureTxt"
@@ -101,7 +101,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/precipitationTxt"
-        tools:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_windspeed" />
 
     <TextView
         android:id="@+id/windSpeedTxt"
@@ -120,7 +120,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/windSpeedImg"
         app:layout_constraintTop_toTopOf="@+id/windSpeedImg"
-        tools:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/ic_direction" />
 
     <TextView
         android:id="@+id/windDirectionTxt"
