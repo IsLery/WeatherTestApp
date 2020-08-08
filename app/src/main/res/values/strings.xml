@@ -5,4 +5,9 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_today">Today</string>
     <string name="title_forecast">Forecast</string>
+    <string name="temp_rv">$1%d \u2103</string>
+    <string name="humid_det">$1%d %</string>
+    <string name="persip_det">$1%d mm</string>
+    <string name="press_det">$1%d hPa</string>
+    <string name="wind_det">$1%d km/h</string>
 </resources>

@@ -72,4 +72,7 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+
+    //Google location
+    implementation "com.google.android.gms:play-services-location:17.0.0"
 }
