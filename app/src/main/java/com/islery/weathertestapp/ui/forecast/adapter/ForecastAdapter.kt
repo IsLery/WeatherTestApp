@@ -61,5 +61,5 @@ val UIMODEL_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
 
 sealed class UiModel {
     data class HeaderItem(val title: String) : UiModel()
-    data class WeatherItem(val model: WeatherModel) : UiModel()
+    data class WeatherItem(val model: WeatherModel, val hour: String, val weekday: String) : UiModel()
 }

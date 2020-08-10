@@ -8,37 +8,48 @@
 
     <ImageView
         android:id="@+id/weatherImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/precipitationImg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/locationTxt"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent="0.3"
+        app:srcCompat="@drawable/ic_no_info" />
 
     <TextView
         android:id="@+id/locationTxt"
+        style="@style/locationText"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_info"
+        app:layout_constraintBottom_toTopOf="@+id/temperatureTxt"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weatherImg"
+        app:layout_constraintTop_toBottomOf="@+id/weatherImg"
         tools:text="Minsk, BY" />
 
     <TextView
         android:id="@+id/temperatureTxt"
+        style="@style/tempDetailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/no_info"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/locationTxt"
+        app:layout_constraintTop_toBottomOf="@+id/locationTxt"
         tools:text="20 C | Cloudy" />
 
     <ImageView
         android:id="@+id/humidityImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/detailInfoIcon"
         app:layout_constraintEnd_toStartOf="@+id/precipitationImg"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,12 +67,12 @@
 
     <ImageView
         android:id="@+id/precipitationImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/detailInfoIcon"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/pressureImg"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/humidityImg"
-        app:layout_constraintTop_toBottomOf="@+id/guidelineTop"
+        app:layout_constraintTop_toBottomOf="@+id/view"
         app:srcCompat="@drawable/ic_drop" />
 
     <TextView
@@ -75,8 +86,7 @@
 
     <ImageView
         android:id="@+id/pressureImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/detailInfoIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/precipitationImg"
@@ -94,9 +104,8 @@
 
     <ImageView
         android:id="@+id/windSpeedImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineBottom"
+        style="@style/detailInfoIcon"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/windDirectionImg"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,8 +123,7 @@
 
     <ImageView
         android:id="@+id/windDirectionImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/detailInfoIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/windSpeedImg"
@@ -132,28 +140,50 @@
         tools:text="SE" />
 
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
-
     <Button
         android:id="@+id/shareBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/shareBtnStyle"
+        android:text="@string/share"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guidelineBottom" />
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.52" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_marginHorizontal="32dp"
+        android:background="@drawable/toolbar_dr"
+        android:layerType="software"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/toolbar_dr"
+        android:layerType="software"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/windSpeedTxt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

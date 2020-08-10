@@ -1,20 +1,23 @@
 package com.islery.weathertestapp.data.model
 
+import com.squareup.moshi.Json
+
 data class ForecastResponse(
     val cod: String = "",
     val message: Double = 0.0,
     val cnt: Int = 0,
-    val list: List<WeatherInfo> = listOf(),
+    val list: List<WeatherModel> = listOf(),
     val city: City = City()
 )
 
-data class WeatherInfo(
-    val dt: Int = 0,
+data class Forecast(
+    val dt: Long = 0, //timestamp
     val main: Main = Main(),
     val weather: List<Weather> = listOf(),
     val clouds: Clouds = Clouds(),
     val wind: Wind = Wind(),
     val rain: Rain = Rain(),
+    val snow: Snow? = null,
     val sys: Sys = Sys(),
     val dt_txt: String = ""
 )
@@ -35,7 +38,7 @@ data class Weather(
 )
 
 data class Wind(
-    val speed: Double = 0.0,
+    val speed: Double = 0.0, //in m/h
     val deg: Double = 0.0,
     val code: String = ""
 )
@@ -43,6 +46,15 @@ data class Wind(
 data class Clouds(
     val all: Int = 0
 )
+
+class Rain(
+    @Json(name = "3h") val percipation: Double = 0.0
+)
+
+class Snow(
+    @Json(name = "3h") val percipation: Double = 0.0
+)
+
 
 data class Main(
     val temp: Double = 0.0,
@@ -56,12 +68,9 @@ data class Main(
 )
 
 
-class Rain(
-)
-
 data class Coord(
-    val lon: Int = 0,
-    val lat: Int = 0
+    val lon: Double = 0.0,
+    val lat: Double = 0.0
 )
 
 data class Sys(

@@ -15,6 +15,45 @@
         <item name="tint">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="rowIcon" parent="detailInfoIcon">
+        <item name="layout_constraintWidth_percent">0.2</item>
+        <item name="tint">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="tempText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">46sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="locationText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="tempDetailText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="timeText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">22sp</item>
+        <item name="android:paddingStart">16dp</item>
+    </style>
+
+    <style name="descrText" parent="timeText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="shareBtnStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 
 
 </resources>

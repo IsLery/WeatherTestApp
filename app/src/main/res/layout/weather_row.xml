@@ -7,17 +7,18 @@
 
     <ImageView
         android:id="@+id/weatherImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/rowIcon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/ic_no_info"
+        tools:srcCompat="@drawable/ic_no_info" />
 
     <TextView
         android:id="@+id/timeTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/timeText"
         android:text="13:00"
         app:layout_constraintWidth_percent="0.5"
         app:layout_constraintBottom_toTopOf="@+id/descrTxt"
@@ -27,6 +28,7 @@
 
     <TextView
         android:id="@+id/descrTxt"
+        style="@style/descrText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="Clear"
@@ -40,7 +42,8 @@
         android:id="@+id/temperatureTxt"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="20"
+        style="@style/tempText"
+        tools:text="22 c"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/timeTxt"
