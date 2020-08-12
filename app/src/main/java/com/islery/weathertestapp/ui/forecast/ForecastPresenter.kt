@@ -1,8 +1,10 @@
 package com.islery.weathertestapp.ui.forecast
 
+import android.location.Location
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.data.ForecastRepoImpl
 import com.islery.weathertestapp.data.ForecastRepository
+import com.islery.weathertestapp.data.NetworkDbRepoImpl
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.data.network.WeatherApiService
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
@@ -18,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ForecastPresenter : MvpPresenter<ForecastListView>() {
+class ForecastPresenter() : MvpPresenter<ForecastListView>() {
 
     private val repo: ForecastRepository = ForecastRepoImpl.getInstance()
 
@@ -28,19 +30,23 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        disposable = repo.getForecast().subscribeOn(Schedulers.io())
+        //first fragment will request new data
+        getForecast(null)
+    }
+
+    private fun getForecast(location: Location?){
+        disposable = repo.getForecast(location).subscribeOn(Schedulers.io())
             .map {
                 city = it.city
                 mapForUi(it.list) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ onGetForecastSuccess(it) }, { onGetForecastError(it) })
-
     }
 
     private fun mapForUi(list: List<WeatherModel>): List<UiModel> {
         val result = mutableListOf<UiModel>()
         val timezone = TimeZone.getDefault()
-        val formatWeekDay = SimpleDateFormat("E", Locale.getDefault())
+        val formatWeekDay = SimpleDateFormat("EEEE", Locale("EN"))
         val formatTime = SimpleDateFormat("HH:mm", Locale.getDefault())
         formatWeekDay.timeZone = timezone
         formatTime.timeZone = timezone

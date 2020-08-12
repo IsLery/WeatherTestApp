@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.FragmentForecastBinding
+import com.islery.weathertestapp.ui.forecast.adapter.CustomItemDecoration
 import com.islery.weathertestapp.ui.forecast.adapter.ForecastAdapter
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
 import com.islery.weathertestapp.ui.makeSnackbarPeriodic
@@ -22,7 +24,7 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
 
     private  val presenter: ForecastPresenter by moxyPresenter { ForecastPresenter() }
 
-    private val adapter = ForecastAdapter { showNextView(it) }
+    private val mAdapter = ForecastAdapter { showNextView(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,9 +32,16 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentForecastBinding.inflate(inflater, container, false)
-        binding.forecastList.layoutManager = LinearLayoutManager(requireContext())
-        binding.forecastList.adapter = adapter
-        return binding.root
+        binding.forecastList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = mAdapter
+        }.addItemDecoration(
+            CustomItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+            )
+            return binding.root
     }
 
     override fun onDestroy() {
@@ -41,7 +50,7 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
     }
 
     override fun submitForecastData(list: List<UiModel>) {
-        adapter.submitList(list)
+        mAdapter.submitList(list)
     }
 
     override fun requestLocation() {

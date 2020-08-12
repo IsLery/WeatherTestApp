@@ -2,16 +2,21 @@ package com.islery.weathertestapp.ui
 
 import android.content.Context
 import android.content.res.Resources
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.islery.weathertestapp.R
-import java.lang.NullPointerException
+import com.islery.weathertestapp.data.LocationSaveFailureException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 fun Long.getTime(): String{
     val date = Date(this)
@@ -51,7 +56,24 @@ fun Throwable.getErrorId():Int{
         R.string.no_connection
     } else if (this is NullPointerException) {
         R.string.no_data
-    } else {
+    } else if(this is LocationSaveFailureException){
+       R.string.no_location
+   } else{
         R.string.other_error
+    }
+}
+
+fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }
+
+fun Toolbar.centerToolbarTitle() {
+    val title: CharSequence = this.title
+    val outViews: ArrayList<View> = ArrayList(1)
+    this.findViewsWithText(outViews, title, View.FIND_VIEWS_WITH_TEXT)
+    if (outViews.isNotEmpty()) {
+        val titleView = outViews[0] as TextView
+        titleView.gravity = Gravity.CENTER
+        val layoutParams: Toolbar.LayoutParams = titleView.layoutParams as Toolbar.LayoutParams
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+        this.requestLayout()
     }
 }

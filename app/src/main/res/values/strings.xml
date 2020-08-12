@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">WeatherTestApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_today">Today</string>
     <string name="title_forecast">Forecast</string>
-    <string name="temp_rv">%d \u2103</string>
+    <string name="temp_rv">%d \u00B0</string>
     <string name="temp_det">%d \u2103 | %s</string>
+    <string name="locat_det">%s, %s</string>
     <string name="humid_det">%d %%</string>
     <string name="persip_det">%.1f mm</string>
     <string name="press_det">%d hPa</string>
@@ -28,4 +26,6 @@ Wind direction - %7$s.
     <string name="forecast_title">Weather forecast from WeatherTestApp</string>
     <string name="share_forecast">Share today\'s forecast</string>
     <string name="no_data">No data available</string>
+    <string name="no_location">No location available. Please enable GPS</string>
+    <string name="no_permissions">No permissions granted, the application will be closed</string>
 </resources>

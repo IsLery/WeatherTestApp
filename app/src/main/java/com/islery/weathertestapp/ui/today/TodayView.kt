@@ -11,12 +11,6 @@ interface TodayView: MvpView, BaseMvpView {
     fun submitDetailData(model: WeatherModel, city: String, country: String)
     @AddToEndSingle
     fun requestLocation()
-    @AddToEndSingle
-    fun checkLocationPermission()
-    @AddToEndSingle
-    fun requestLocationPermission()
-    @AddToEndSingle
-    fun finishApp()
     @Skip
     fun shareForecast()
 }

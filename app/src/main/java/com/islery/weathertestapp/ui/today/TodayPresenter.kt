@@ -7,6 +7,7 @@ import android.util.Log
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.data.ForecastRepoImpl
 import com.islery.weathertestapp.data.ForecastRepository
+import com.islery.weathertestapp.data.NetworkDbRepoImpl
 import com.islery.weathertestapp.data.model.SingleWeatherAndLocation
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.ui.getErrorId
@@ -15,51 +16,37 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import retrofit2.HttpException
+import timber.log.Timber
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.math.roundToLong
 
-class TodayPresenter(private val contest: Context) : MvpPresenter<TodayView>() {
+class TodayPresenter() : MvpPresenter<TodayView>() {
     private val repo: ForecastRepository = ForecastRepoImpl.getInstance()
 
     private var disposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        Log.d("MY_TAG", "onFirstViewAttach: ")
-        viewState.checkLocationPermission()
-    }
-
-    fun onCheckPermissionResult(res: Int) {
-        if (res == PackageManager.PERMISSION_DENIED) {
-            viewState.requestLocationPermission()
-        } else {
-            Log.d("MY_TAG", "onCheckPermissionResult: ")
             viewState.requestLocation()
-        }
     }
 
-    fun onRequestPermissionResult(res: Boolean) {
-        if (res) {
-            viewState.requestLocation()
-        } else {
-            viewState.finishApp()
-        }
-    }
-
-    fun onLocationReceived(location: Location?) {
-        Log.d("MY_TAG", "onLocationReceived: ")
-        viewState.showProgress()
-        val lat = location?.latitude?.roundToLong()
-        val lon = location?.longitude?.roundToLong()
-        disposable =
-            repo.getDetail(lat, lon)
+    private fun getDetail(location: Location?){
+                disposable =
+            repo.getDetail(location)
                 .subscribeOn(
                     Schedulers.io()
                 )
+                .doOnEach { Timber.d("each $it") }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ onGetDetailSuccess(it) }, { onGetDetailError(it) })
                 .also { viewState.hideProgress() }
+    }
+
+
+    fun onLocationReceived(location: Location?) {
+        Log.d("MY_TAG", "onLocationReceived: ")
+      getDetail(location)
 
     }
 
@@ -72,12 +59,14 @@ class TodayPresenter(private val contest: Context) : MvpPresenter<TodayView>() {
     }
 
     private fun onGetDetailError(e: Throwable) {
+        Log.d("MY_TAG", "onGetDetailError: ")
         e.printStackTrace()
         val msgId = e.getErrorId()
         viewState.showError(msgId)
     }
 
     private fun onGetDetailSuccess(res: SingleWeatherAndLocation) {
+        Log.d("MY_TAG", "onGetDetailSuccess: ")
         viewState.hideProgress()
         viewState.submitDetailData(res.model, res.city, res.countryCode)
     }

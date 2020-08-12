@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/row_offset_size"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <ImageView
         android:id="@+id/weatherImg"
@@ -18,7 +20,7 @@
         android:id="@+id/timeTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/timeText"
+        style="@style/timeRvText"
         android:text="13:00"
         app:layout_constraintWidth_percent="0.5"
         app:layout_constraintBottom_toTopOf="@+id/descrTxt"
@@ -28,7 +30,7 @@
 
     <TextView
         android:id="@+id/descrTxt"
-        style="@style/descrText"
+        style="@style/descrRvText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="Clear"
@@ -40,9 +42,9 @@
 
     <TextView
         android:id="@+id/temperatureTxt"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        style="@style/tempText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tempRvText"
         tools:text="22 c"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.islery.weathertestapp.data.model.WeatherModel
 
-private const val TYPE_HEADER = 0
-private const val TYPE_WEATHER = 1
+const val TYPE_HEADER = 110
+const val TYPE_WEATHER = 210
 
 class ForecastAdapter(private val listener: (weather: WeatherModel) -> Unit) :
     ListAdapter<UiModel, RecyclerView.ViewHolder>(UIMODEL_COMPARATOR) {
@@ -22,7 +22,7 @@ class ForecastAdapter(private val listener: (weather: WeatherModel) -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HeaderItemHolder -> holder.bind(getItem(position) as UiModel.HeaderItem)
-            is WeatherItemHolder -> holder.bind(getItem(position) as UiModel.WeatherItem)
+            is WeatherItemHolder -> holder.bind(getItem(position) as UiModel.WeatherItem, position)
             else -> throw IllegalArgumentException("Wrong item type")
         }
     }
@@ -59,7 +59,3 @@ val UIMODEL_COMPARATOR = object : DiffUtil.ItemCallback<UiModel>() {
 
 }
 
-sealed class UiModel {
-    data class HeaderItem(val title: String) : UiModel()
-    data class WeatherItem(val model: WeatherModel, val hour: String, val weekday: String) : UiModel()
-}

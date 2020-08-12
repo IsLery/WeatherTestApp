@@ -4,8 +4,8 @@
     android:id="@+id/headerTxt"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="30sp"
+    android:padding="@dimen/row_offset_size"
     android:textAllCaps="true"
-    android:padding="@dimen/small_padding"
+    android:textSize="@dimen/row_header_txt_size"
     tools:text="Today" />
 
