@@ -1,15 +1,17 @@
 package com.islery.weathertestapp.data
 
-import com.islery.weathertestapp.data.model.ListeWeatherAndLocation
+import android.location.Location
+import com.islery.weathertestapp.data.model.ListWeatherAndLocation
 import com.islery.weathertestapp.data.model.SingleWeatherAndLocation
-import com.islery.weathertestapp.data.model.WeatherModel
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.Observable
 
 interface ForecastRepository {
-    //in case user triggers refresh
-    fun getForecast( lat: Long? = null,
-                     lon: Long? = null): Single<ListeWeatherAndLocation>
 
-    fun getDetail(lat: Long?,
-                  lon: Long?): Single<SingleWeatherAndLocation>
+    fun getForecast(location: Location?): Observable<ListWeatherAndLocation>
+
+    fun getDetail(location: Location?): Observable<SingleWeatherAndLocation>
+
+    fun updateNetworkStatus(isAvailable: Boolean)
+
+    fun getNetworkStatus(): Boolean
 }

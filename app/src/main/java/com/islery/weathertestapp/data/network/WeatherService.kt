@@ -5,6 +5,8 @@ import com.islery.weathertestapp.data.model.WeatherMoshiAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -20,11 +22,11 @@ interface WeatherApiService {
 
     @GET("data/2.5/forecast")
     fun getFiveDayForecast(
-        @Query("lat") lat: Long,
-        @Query("lon") lon: Long,
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
         @Query("units") units: String = "metric",
         @Query("appid") id: String = API_KEY
-    ): Single<ForecastResponse>
+    ): Observable<ForecastResponse>
 
     companion object {
 

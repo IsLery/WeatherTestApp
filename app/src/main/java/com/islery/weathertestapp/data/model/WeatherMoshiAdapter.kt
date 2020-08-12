@@ -1,6 +1,7 @@
 package com.islery.weathertestapp.data.model
 
 import com.islery.weathertestapp.data.WindDirectionUtils.convertDegreeToCardinalDirection
+import com.islery.weathertestapp.ui.capitalizeWords
 import com.squareup.moshi.FromJson
 import kotlin.math.roundToInt
 
@@ -15,26 +16,26 @@ class WeatherMoshiAdapter {
         } else {
             data.wind.code
         }
+        val speed = if (data.wind.speed > 0) (data.wind.speed * 60 / 1000).roundToInt() else 0
         val pers = if (data.snow != null) WeatherModel.Percipation(
-            WeatherModel.PersipationType.Snow,
+            "snow",
             data.snow.percipation
         )
-        else WeatherModel.Percipation(WeatherModel.PersipationType.Rain, data.rain.percipation)
+        else WeatherModel.Percipation(value =  data.rain.percipation)
         return WeatherModel(
-            WeatherModel.WeatherCondition(
+            timestamp = data.dt * 1000,
+            iconMain = weatherMoshi.icon,
+            condition = WeatherModel.WeatherCondition(
                 condName = weatherMoshi.main,
-                longDescr = weatherMoshi.description,
+                longDescr = weatherMoshi.description.capitalizeWords(),
                 temperature = data.main.temp.roundToInt(),
                 humidity = data.main.humidity,
-                percipation = pers,
                 pressure = data.main.pressure.roundToInt(),
-                windSpeed = if (data.wind.speed > 0) (data.wind.speed * 60 / 1000).roundToInt() else 0,
-                windDirection = windDir
-            ),
-            iconMain = weatherMoshi.icon,
-            timestamp = data.dt
+                windSpeed = speed,
+                windDirection = windDir,
+                percipation = pers
+            )
         )
-
     }
 
 
