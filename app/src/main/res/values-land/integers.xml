@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item format="float" name="detail_main_icon_ratio" type="integer">0.2</item>
+    <item format="float" name="rv_image_ratio" type="integer">0.12</item>
+</resources>

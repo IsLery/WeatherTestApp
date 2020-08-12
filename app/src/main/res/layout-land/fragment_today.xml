@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.today.TodayFragment">
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/weatherImg"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/base_offset"
         android:tint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/locationTxt"
         app:layout_constraintDimensionRatio="1:1"
@@ -143,32 +146,30 @@
     <Button
         android:id="@+id/shareBtn"
         style="@style/shareBtnStyle"
+        android:layout_marginTop="@dimen/large_offser"
         android:text="@string/share"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view"
-        android:layout_width="0dp"
         style="@style/detailSeparator"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/base_offset"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44" />
+        app:layout_constraintTop_toBottomOf="@+id/temperatureTxt" />
 
     <View
         android:id="@+id/view2"
@@ -179,5 +180,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/windSpeedTxt" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

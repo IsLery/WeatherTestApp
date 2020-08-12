@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="icon_names_api">
+        <item>00</item>
         <item>01d</item>
         <item>01n</item>
         <item>02d</item>
@@ -21,6 +22,7 @@
         <item>50n</item>
     </string-array>
     <integer-array name="icon_local_resource">
+        <item>@drawable/ic_no_info</item>
         <item>@drawable/ic_clear_day</item>
         <item>@drawable/ic_clear_night</item>
         <item>@drawable/ic_few_clouds_day</item>

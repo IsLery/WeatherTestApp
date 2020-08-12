@@ -9,10 +9,9 @@
     <string name="persip_det">%.1f mm</string>
     <string name="press_det">%d hPa</string>
     <string name="wind_det">%d km/h</string>
-    <string name="no_info">N/A</string>
+    <string name="no_info">--</string>
     <string name="no_connection">Connection timeout. Please try again later</string>
     <string name="other_error">Oops, something went wrong</string>
-    <string name="location_error">Failed to determine location</string>
     <string name="share">Share</string>
     <string name="forecast_text">
 Current weather in %1$s -  %2$s.

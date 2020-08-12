@@ -2,4 +2,5 @@
 <resources>
     <item format="float" name="rv_image_ratio" type="integer">0.2</item>
     <item format="float" name="detail_icon_ratio" type="integer">0.12</item>
+    <item format="float" name="detail_main_icon_ratio" type="integer">0.3</item>
 </resources>
