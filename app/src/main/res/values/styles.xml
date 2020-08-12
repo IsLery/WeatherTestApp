@@ -58,7 +58,7 @@
         <item name="android:layout_height">@dimen/det_sepr_height</item>
         <item name="android:layout_marginStart">@dimen/det_sepr_horz_margin</item>
         <item name="android:layout_marginEnd">@dimen/det_sepr_horz_margin</item>
-        <item name="background">@drawable/toolbar_dr</item>
+        <item name="android:background">@drawable/det_separator</item>
         <item name="android:layerType">software</item>
     </style>
 
