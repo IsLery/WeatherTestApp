@@ -52,7 +52,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
-//    implementation "androidx.activity:activity-ktx:1.1.0"
     implementation "androidx.fragment:fragment-ktx:$fragment_ktx_version"
 
     //Moxy
@@ -85,6 +84,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-rxjava3:$room_version"
-
     kapt "androidx.room:room-compiler:$room_version"
+
+    //Swipe-refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_version"
 }

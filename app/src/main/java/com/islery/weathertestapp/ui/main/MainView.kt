@@ -1,18 +1,23 @@
-package com.islery.weathertestapp.ui
+package com.islery.weathertestapp.ui.main
 
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
+import moxy.viewstate.strategy.alias.OneExecution
 import moxy.viewstate.strategy.alias.Skip
 
 interface MainView : MvpView {
-    @AddToEndSingle
+    @OneExecution
     fun registerNetworkCallback()
-    @AddToEndSingle
+
+    @Skip
     fun unregisterNetworkCallback()
+
     @Skip
     fun onPermissionsDenied()
-    @AddToEndSingle
+
+    @OneExecution
     fun checkPermissions()
+
     @AddToEndSingle
     fun requirePermissions()
 }

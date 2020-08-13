@@ -7,13 +7,13 @@ import com.islery.weathertestapp.data.model.SingleWeatherAndLocation
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.data.network.WeatherApiService
 import com.islery.weathertestapp.data.persistence.WeatherDatabase
-import io.reactivex.rxjava3.core.Flowable
+import com.islery.weathertestapp.round
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
 
-class NetworkDbRepoImpl private constructor(): ForecastRepository {
+class NetworkDbRepoImpl private constructor() : ForecastRepository {
     private val db: WeatherDatabase = WeatherDatabase.createDb()
     private val apiService = WeatherApiService.create()
 
@@ -50,24 +50,30 @@ class NetworkDbRepoImpl private constructor(): ForecastRepository {
                             Timber.d("info in db: lat = ${inf.latitude} lon = ${inf.longitude} ")
                             var lat = inf.latitude
                             var lon = inf.longitude
+
                             Timber.d(
                                 "received location = ${location?.latitude} lon = ${location?.longitude} "
                             )
                             if ((lat == null || lon == null) && (location?.longitude == null)) {
                                 Timber.d("don't access network")
-                                throw LocationSaveFailureException()
-                            } else if (location?.longitude == null || (lat == location.latitude && lon == location.longitude)) {
+                                return@flatMapObservable Observable.error<ListWeatherAndLocation>(NoLocationException())
+                            } else if (location?.longitude == null || (lat == location.latitude.round(
+                                    4
+                                ) && lon == location.longitude.round(4))
+                            ) {
                                 if (System.currentTimeMillis() - inf.timestamp < java.util.concurrent.TimeUnit.MINUTES.toMillis(
                                         UPDATE_INTERVAL_MIN
                                     )
                                 ) {
                                     Timber.d("don't access network, small interval ")
-                                    Flowable.empty<SingleWeatherAndLocation>()
+                                    return@flatMapObservable Observable.empty<ListWeatherAndLocation>()
                                 }
                             } else {
                                 lat = location.latitude
                                 lon = location.longitude
                             }
+                            lat = lat?.round(4)
+                            lon = lon?.round(4)
                             apiService.getFiveDayForecast(lat!!, lon!!).subscribeOn(Schedulers.io())
                                 .flatMap { response ->
                                     db.weatherDao().clearAll()
@@ -95,7 +101,7 @@ class NetworkDbRepoImpl private constructor(): ForecastRepository {
                                 }
                         }
                 } else {
-                    Observable.empty<ListWeatherAndLocation>()
+                    Observable.empty()
                 }
             }.subscribeOn(Schedulers.io())
         )
@@ -106,7 +112,7 @@ class NetworkDbRepoImpl private constructor(): ForecastRepository {
         Timber.d("getting details")
         return Observable.concatArrayEager<SingleWeatherAndLocation>(
             db.weatherDao().getFirst()
-                .onErrorReturnItem(null)
+                .onErrorReturnItem(WeatherModel())
                 .flatMapObservable { md ->
                     db.infoDao().getInfo()
                         .onErrorReturnItem(
@@ -138,46 +144,56 @@ class NetworkDbRepoImpl private constructor(): ForecastRepository {
                             )
                             if ((lat == null || lon == null) && (location?.longitude == null)) {
                                 Timber.d("don't access network")
-                                Flowable.empty<SingleWeatherAndLocation>()
-                            } else if (location?.longitude == null || (lat == location.latitude && lon == location.longitude)) {
-                                if (System.currentTimeMillis() - inf.timestamp < java.util.concurrent.TimeUnit.MINUTES.toMillis(
-                                        UPDATE_INTERVAL_MIN
-                                    )
-                                ) {
-                                    Timber.d("don't access network, small interval ")
-                                    Flowable.empty<SingleWeatherAndLocation>()
-                                }
+                                return@flatMapObservable Observable.error<SingleWeatherAndLocation>(NoLocationException())
                             } else {
-                                lat = location.latitude
-                                lon = location.longitude
-                            }
-                            apiService.getFiveDayForecast(lat!!, lon!!).subscribeOn(Schedulers.io())
-                                .flatMap { response ->
-                                    db.weatherDao().clearAll()
-                                        .andThen(db.weatherDao().saveAll(response.list))
-                                        .andThen(
-                                            db.infoDao().updateInfo(
-                                                CurrentInfo(
-                                                    city = response.city.name,
-                                                    countryCode = response.city.country,
-                                                    timestamp = response.list[0].timestamp,
-                                                    latitude = lat,
-                                                    longitude = lon
+                                if (location?.longitude == null || (lat == location.latitude.round(4) && lon == location.longitude.round(
+                                        4
+                                    ))
+                                ) {
+                                    if (System.currentTimeMillis() - inf.timestamp < java.util.concurrent.TimeUnit.MINUTES.toMillis(
+                                            UPDATE_INTERVAL_MIN
+                                        )
+                                    ) {
+                                        Timber.d("don't access network, small interval ")
+                                        return@flatMapObservable Observable.empty<SingleWeatherAndLocation>()
+                                    }
+                                } else {
+                                    lat = location.latitude
+                                    lon = location.longitude
+                                }
+                                lat = lat?.round(4)
+                                lon = lon?.round(4)
+                                Timber.d("info request: lat = ${lat} lon = ${lon} ")
+
+                                apiService.getFiveDayForecast(lat!!, lon!!)
+                                    .subscribeOn(Schedulers.io())
+                                    .flatMap { response ->
+                                        db.weatherDao().clearAll()
+                                            .andThen(db.weatherDao().saveAll(response.list))
+                                            .andThen(
+                                                db.infoDao().updateInfo(
+                                                    CurrentInfo(
+                                                        city = response.city.name,
+                                                        countryCode = response.city.country,
+                                                        timestamp = response.list[0].timestamp,
+                                                        latitude = lat,
+                                                        longitude = lon
+                                                    )
                                                 )
                                             )
-                                        )
-                                        .toObservable<Unit>()
-                                        .map {
-                                            SingleWeatherAndLocation(
-                                                city = response.city.name,
-                                                countryCode = response.city.country,
-                                                model = response.list[0]
-                                            )
-                                        }
-                                }
+                                            .toObservable<Unit>()
+                                            .map {
+                                                SingleWeatherAndLocation(
+                                                    city = response.city.name,
+                                                    countryCode = response.city.country,
+                                                    model = response.list[0]
+                                                )
+                                            }
+                                    }
+                            }
                         }
                 } else {
-                    Observable.empty<SingleWeatherAndLocation>()
+                    Observable.empty()
                 }
             }
         )
@@ -206,23 +222,7 @@ class NetworkDbRepoImpl private constructor(): ForecastRepository {
 
 }
 
-class LocationSaveFailureException(msg: String = "No location exist") : RuntimeException(msg)
+//when no location were provided or saved in db
+class NoLocationException(msg: String = "No location exist") : RuntimeException(msg)
 
-val testWeather: SingleWeatherAndLocation = SingleWeatherAndLocation(
-    city = "Test city",
-    countryCode = "Test country",
-    model = WeatherModel(
-        0,
-        "00",
-        WeatherModel.WeatherCondition(
-            "no info",
-            "no info",
-            0,
-            0,
-            0,
-            0,
-            "",
-            WeatherModel.Percipation()
-        )
-    )
-)
+class NoNetworkException(msg: String = "No network") : RuntimeException(msg)

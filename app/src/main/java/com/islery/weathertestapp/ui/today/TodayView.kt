@@ -6,11 +6,13 @@ import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.Skip
 
-interface TodayView: MvpView, BaseMvpView {
+interface TodayView : MvpView, BaseMvpView {
     @AddToEndSingle
     fun submitDetailData(model: WeatherModel, city: String, country: String)
+
     @AddToEndSingle
     fun requestLocation()
+
     @Skip
     fun shareForecast()
 }

@@ -1,16 +1,13 @@
-package com.islery.weathertestapp.ui
+package com.islery.weathertestapp.ui.main
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.islery.weathertestapp.WeatherApp
-import com.islery.weathertestapp.data.ForecastRepoImpl
 import com.islery.weathertestapp.data.ForecastRepository
-import com.islery.weathertestapp.data.NetworkDbRepoImpl
 import moxy.MvpPresenter
-import timber.log.Timber
 
 class MainPresenter : MvpPresenter<MainView>() {
-    private val repo: ForecastRepository = ForecastRepoImpl.getInstance()
+    private val repo: ForecastRepository = WeatherApp.provideRepo()
 
 
     override fun onFirstViewAttach() {
@@ -18,14 +15,26 @@ class MainPresenter : MvpPresenter<MainView>() {
         viewState.checkPermissions()
     }
 
-    fun updateNetworkStatus(cm: ConnectivityManager) {
-        lastInternetConnectionCheck(cm)
+    fun onPauseCalled() {
+        viewState.unregisterNetworkCallback()
+    }
+
+    fun onResumeCalled(oldInstance: Boolean) {
+        if (oldInstance) {
+            viewState.checkPermissions()
+        }
+    }
+
+    fun updateNetworkStatus(cm: ConnectivityManager?) {
+        cm?.let {
+            lastInternetConnectionCheck(cm)
+        }
     }
 
     fun onPermissionsCheck(granted: Boolean) {
         if (!granted) {
             viewState.requirePermissions()
-        }else{
+        } else {
             viewState.registerNetworkCallback()
         }
     }

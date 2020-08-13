@@ -7,8 +7,7 @@ import com.islery.weathertestapp.R
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.HeaderRowBinding
 import com.islery.weathertestapp.databinding.WeatherRowBinding
-import com.islery.weathertestapp.ui.getLocalImageId
-import com.islery.weathertestapp.ui.getTime
+import com.islery.weathertestapp.getLocalImageId
 
 class WeatherItemHolder private constructor(
     private val binding: WeatherRowBinding,
@@ -22,7 +21,7 @@ class WeatherItemHolder private constructor(
         binding.descrTxt.text = wthr.condition.longDescr
         binding.temperatureTxt.text =
             context.getString(R.string.temp_rv, wthr.condition.temperature)
-        binding.timeTxt.text = wthr.timestamp.getTime()
+        binding.timeTxt.text = item.hour
         binding.weatherImg.setImageResource(wthr.iconMain.getLocalImageId(context))
         if (pos == 1) {
             binding.root.background =

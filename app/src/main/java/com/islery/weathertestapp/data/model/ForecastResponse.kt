@@ -18,7 +18,7 @@ data class Forecast(
     val wind: Wind = Wind(),
     val rain: Rain = Rain(),
     val snow: Snow? = null,
- //   val sys: Sys = Sys(),
+    //   val sys: Sys = Sys(),
     val dt_txt: String = ""
 )
 

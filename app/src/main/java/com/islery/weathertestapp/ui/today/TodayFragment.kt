@@ -2,7 +2,6 @@ package com.islery.weathertestapp.ui.today
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,8 @@ import com.google.android.gms.location.LocationServices
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.FragmentTodayBinding
-import com.islery.weathertestapp.ui.getLocalImageId
-import com.islery.weathertestapp.ui.makeSnackbarPeriodic
+import com.islery.weathertestapp.getLocalImageId
+import com.islery.weathertestapp.makeSnackbarPeriodic
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import timber.log.Timber
@@ -44,31 +43,27 @@ class TodayFragment : MvpAppCompatFragment(), TodayView {
     }
 
     override fun submitDetailData(model: WeatherModel, city: String, country: String) {
-        binding.locationTxt.text = getString(R.string.locat_det, city, country)
-        binding.temperatureTxt.text =
-            getString(R.string.temp_det, model.condition.temperature, model.condition.condName)
-        binding.humidityTxt.text = getString(R.string.humid_det, model.condition.humidity)
-        binding.precipitationTxt.text =
-            getString(R.string.persip_det, model.condition.percipation.value)
-        binding.pressureTxt.text = getString(R.string.press_det, model.condition.pressure)
-        binding.windSpeedTxt.text = getString(R.string.wind_det, model.condition.windSpeed)
-        binding.windDirectionTxt.text = model.condition.windDirection
-
-        val id = model.iconMain.getLocalImageId(requireContext())
-        binding.weatherImg.setImageResource(id)
+        model.condition
+            binding.locationTxt.text = getString(R.string.locat_det, city, country)
+            binding.temperatureTxt.text =
+                getString(R.string.temp_det, model.condition.temperature, model.condition.condName)
+            binding.humidityTxt.text = getString(R.string.humid_det, model.condition.humidity)
+            binding.precipitationTxt.text =
+                getString(R.string.persip_det, model.condition.percipation.value)
+            binding.pressureTxt.text = getString(R.string.press_det, model.condition.pressure)
+            binding.windSpeedTxt.text = getString(R.string.wind_det, model.condition.windSpeed)
+            binding.windDirectionTxt.text = model.condition.windDirection
+            val id = model.iconMain.getLocalImageId(requireContext())
+            binding.weatherImg.setImageResource(id)
     }
 
     @SuppressLint("MissingPermission")
     override fun requestLocation() {
-        Timber.d( "requestLocation: ")
+        Timber.d("requestLocation: ")
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         fusedLocationClient.lastLocation.apply {
             addOnSuccessListener {
-                Timber.d(  "addOnSuccessListener: ")
                 presenter.onLocationReceived(it)
-            }
-            addOnFailureListener {
-                presenter.onGetLocationFailed()
             }
         }
     }

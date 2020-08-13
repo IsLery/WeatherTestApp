@@ -16,4 +16,6 @@ interface ForecastListView : MvpView, BaseMvpView {
     fun showNextView(item: WeatherModel)
     @AddToEndSingle
     fun setToolbarLabel(label: String)
+    @AddToEndSingle
+    fun endRefreshing()
 }

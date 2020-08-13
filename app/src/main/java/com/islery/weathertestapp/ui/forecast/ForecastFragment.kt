@@ -1,5 +1,6 @@
 package com.islery.weathertestapp.ui.forecast
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,21 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.LocationServices
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.FragmentForecastBinding
 import com.islery.weathertestapp.ui.forecast.adapter.CustomItemDecoration
 import com.islery.weathertestapp.ui.forecast.adapter.ForecastAdapter
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
-import com.islery.weathertestapp.ui.makeSnackbarPeriodic
+import com.islery.weathertestapp.makeSnackbarPeriodic
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import timber.log.Timber
 
 class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
 
     private var _binding: FragmentForecastBinding? = null
     private val binding get() = _binding!!
 
-    private  val presenter: ForecastPresenter by moxyPresenter { ForecastPresenter() }
+    private val presenter: ForecastPresenter by moxyPresenter { ForecastPresenter() }
 
     private val mAdapter = ForecastAdapter { showNextView(it) }
 
@@ -40,8 +43,11 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
                 requireContext(),
                 DividerItemDecoration.VERTICAL
             )
-            )
-            return binding.root
+        )
+        binding.swipe.setOnRefreshListener {
+            presenter.onRefresh()
+        }
+        return binding.root
     }
 
     override fun onDestroy() {
@@ -53,8 +59,15 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
         mAdapter.submitList(list)
     }
 
+    @SuppressLint("MissingPermission")
     override fun requestLocation() {
-        TODO("Not yet implemented")
+        Timber.d("requestLocation: ")
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationClient.lastLocation.apply {
+            addOnSuccessListener {
+                presenter.onLocationReceived(it)
+            }
+        }
     }
 
 
@@ -71,11 +84,15 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
         binding.progressBar.isVisible = false
     }
 
-    override fun showNextView(weatherModel: WeatherModel) {
+    override fun showNextView(item: WeatherModel) {
 
     }
 
     override fun setToolbarLabel(label: String) {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = label
+    }
+
+    override fun endRefreshing() {
+        binding.swipe.isRefreshing = false
     }
 }

@@ -1,4 +1,4 @@
-package com.islery.weathertestapp.ui
+package com.islery.weathertestapp
 
 import android.content.Context
 import android.content.res.Resources
@@ -10,21 +10,14 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
-import com.islery.weathertestapp.R
-import com.islery.weathertestapp.data.LocationSaveFailureException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
-import java.text.SimpleDateFormat
+import com.islery.weathertestapp.data.NoLocationException
+import com.islery.weathertestapp.data.NoNetworkException
 import java.util.*
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 
-fun Long.getTime(): String{
-    val date = Date(this)
-    val format = SimpleDateFormat("HH:mm", Locale.getDefault())
-    return format.format(date)
-}
-
-fun String.getLocalImageId(context: Context): Int{
+fun String.getLocalImageId(context: Context): Int {
     val arrIconCodes = context.resources.getStringArray(R.array.icon_names_api)
     val arrLocalRes = context.resources.obtainTypedArray(R.array.icon_local_resource)
     val index = arrIconCodes.indexOf(this)
@@ -33,11 +26,11 @@ fun String.getLocalImageId(context: Context): Int{
     return res
 }
 
-fun Int.toPx():Int{
+fun Int.toPx(): Int {
     return this * Resources.getSystem().displayMetrics.density.toInt()
 }
 
-fun Float.toPx():Float{
+fun Float.toPx(): Float {
     return this * Resources.getSystem().displayMetrics.density
 }
 
@@ -48,19 +41,27 @@ fun Context.showToast(@StringRes idMessage: Int, duration: Int = Toast.LENGTH_SH
 
 // showing snackbar extension from resource
 fun View.makeSnackbarPeriodic(@StringRes idMessage: Int, duration: Int = Snackbar.LENGTH_SHORT) {
-    Snackbar.make(this,idMessage,duration).show()
+    Snackbar.make(this, idMessage, duration).show()
 }
 
-fun Throwable.getErrorId():Int{
-   return if (this is SocketTimeoutException || this is UnknownHostException) {
-        R.string.no_connection
-    } else if (this is NullPointerException) {
-        R.string.no_data
-    } else if(this is LocationSaveFailureException){
-       R.string.no_location
-   } else{
-        R.string.other_error
+//vonveting received exceptions to string resouece ids
+fun Throwable.getErrorId(): Int {
+    return when (this) {
+        is NoNetworkException -> {
+            R.string.no_connection
+        }
+        is NoLocationException -> {
+            R.string.no_location
+        }
+        else -> {
+            R.string.other_error
+        }
     }
+}
+
+fun Double.round(fractDigits: Int): Double {
+    val factor = 10.0.pow(fractDigits.toDouble())
+    return (this * factor).roundToInt() / factor
 }
 
 fun String.capitalizeWords(): String = split(" ").joinToString(" ") { it.capitalize() }

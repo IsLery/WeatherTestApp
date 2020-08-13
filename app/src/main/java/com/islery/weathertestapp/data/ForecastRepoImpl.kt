@@ -29,7 +29,7 @@ class ForecastRepoImpl private constructor() : ForecastRepository {
         val lon = location?.longitude
         if ((lat == null || lon == null) && (lastLat == null || lastLon == null)) {
             //don't have data at all
-            return Observable.error(LocationSaveFailureException())
+            return Observable.error(NoLocationException())
         }
         //if location is the same or new data is null
         if (shouldFetchFromNetwork(lat, lon)) {
@@ -93,7 +93,7 @@ class ForecastRepoImpl private constructor() : ForecastRepository {
         )
         if ((lat == null || lon == null) && (lastLat == null || lastLon == null)) {
             //don't have data at all
-            return Observable.error(LocationSaveFailureException())
+            return Observable.error(NoLocationException())
         } else
         //if location is the same or new data is null
             if (networkAvailable) {

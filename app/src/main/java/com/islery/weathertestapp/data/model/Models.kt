@@ -10,7 +10,7 @@ import com.islery.weathertestapp.data.persistence.WEATHER_TABLE
 @Entity(tableName = CURR_INFO_TABLE)
 data class CurrentInfo(
     @PrimaryKey
-    val id:Int = 1,
+    val id: Int = 1,
     @ColumnInfo(name = "timestamp")
     val timestamp: Long = 0,
     @ColumnInfo(name = "city")
@@ -27,26 +27,26 @@ data class CurrentInfo(
 data class WeatherModel(
     @PrimaryKey
     @ColumnInfo(name = "timestamp")
-    val timestamp: Long,
+    val timestamp: Long = 0,
     @ColumnInfo(name = "iconMain")
-    val iconMain: String, //id from network, will be mapped to dravable resource
-    @Embedded val condition: WeatherCondition?
+    val iconMain: String = "", //id from network, will be mapped to dravable resource
+    @Embedded val condition: WeatherCondition = WeatherCondition()
 ) {
     data class WeatherCondition(
         @ColumnInfo(name = "name")
-        val condName: String = "unknown", // for detail today fragment
+        val condName: String = "", // for detail today fragment
         @ColumnInfo(name = "description")
-        val longDescr: String = "unknown", // for rv
+        val longDescr: String = "", // for rv
         @ColumnInfo(name = "temperature")
-        val temperature: Int,
+        val temperature: Int = 0,
         @ColumnInfo(name = "humidity")
-        val humidity: Int, //percentage
+        val humidity: Int = 0, //percentage
         @ColumnInfo(name = "pressure")
-        val pressure: Int, // in hPa
+        val pressure: Int = 0, // in hPa
         @ColumnInfo(name = "speed")
-        val windSpeed: Int, // in km/h
+        val windSpeed: Int = 0, // in km/h
         @ColumnInfo(name = "direction")
-        val windDirection: String,
+        val windDirection: String = "",
         @Embedded val percipation: Percipation = Percipation() // осадки
     )
 

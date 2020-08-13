@@ -2,31 +2,27 @@ package com.islery.weathertestapp.ui.forecast
 
 import android.location.Location
 import com.islery.weathertestapp.R
-import com.islery.weathertestapp.data.ForecastRepoImpl
+import com.islery.weathertestapp.WeatherApp
 import com.islery.weathertestapp.data.ForecastRepository
-import com.islery.weathertestapp.data.NetworkDbRepoImpl
 import com.islery.weathertestapp.data.model.WeatherModel
-import com.islery.weathertestapp.data.network.WeatherApiService
+import com.islery.weathertestapp.getErrorId
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
-import com.islery.weathertestapp.ui.getErrorId
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
-import java.lang.NullPointerException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ForecastPresenter() : MvpPresenter<ForecastListView>() {
+class ForecastPresenter : MvpPresenter<ForecastListView>() {
 
-    private val repo: ForecastRepository = ForecastRepoImpl.getInstance()
+    private val repo: ForecastRepository = WeatherApp.provideRepo()
 
     private var disposable: Disposable? = null
 
-    private var city = "N/A"
+    private var city = "--"
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -34,13 +30,19 @@ class ForecastPresenter() : MvpPresenter<ForecastListView>() {
         getForecast(null)
     }
 
-    private fun getForecast(location: Location?){
+    private fun getForecast(location: Location?) {
+        viewState.showProgress()
         disposable = repo.getForecast(location).subscribeOn(Schedulers.io())
             .map {
                 city = it.city
-                mapForUi(it.list) }
+                mapForUi(it.list)
+            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ onGetForecastSuccess(it) }, { onGetForecastError(it) })
+            .also {
+                viewState.hideProgress()
+                viewState.endRefreshing()
+            }
     }
 
     private fun mapForUi(list: List<WeatherModel>): List<UiModel> {
@@ -77,9 +79,16 @@ class ForecastPresenter() : MvpPresenter<ForecastListView>() {
     }
 
     private fun onGetForecastError(e: Throwable) {
-        viewState.hideProgress()
-        val msgId  = e.getErrorId()
+        val msgId = e.getErrorId()
         viewState.showError(msgId)
+    }
 
+    fun onRefresh() {
+        viewState.requestLocation()
+    }
+
+    fun onLocationReceived(location: Location?) {
+        getForecast(location)
+        Timber.d("lat: ${location?.latitude}, lon = ${location?.longitude}")
     }
 }
