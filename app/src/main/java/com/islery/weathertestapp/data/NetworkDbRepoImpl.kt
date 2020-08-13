@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 
+const val UPD_INTERVAL_MIN = 70L
 
 class NetworkDbRepoImpl private constructor() : ForecastRepository {
     private val db: WeatherDatabase = WeatherDatabase.createDb()
@@ -62,7 +63,7 @@ class NetworkDbRepoImpl private constructor() : ForecastRepository {
                                 ) && lon == location.longitude.round(4))
                             ) {
                                 if (System.currentTimeMillis() - inf.timestamp < java.util.concurrent.TimeUnit.MINUTES.toMillis(
-                                        UPDATE_INTERVAL_MIN
+                                        UPD_INTERVAL_MIN
                                     )
                                 ) {
                                     Timber.d("don't access network, small interval ")
@@ -151,7 +152,7 @@ class NetworkDbRepoImpl private constructor() : ForecastRepository {
                                     ))
                                 ) {
                                     if (System.currentTimeMillis() - inf.timestamp < java.util.concurrent.TimeUnit.MINUTES.toMillis(
-                                            UPDATE_INTERVAL_MIN
+                                            UPD_INTERVAL_MIN
                                         )
                                     ) {
                                         Timber.d("don't access network, small interval ")
@@ -163,7 +164,7 @@ class NetworkDbRepoImpl private constructor() : ForecastRepository {
                                 }
                                 lat = lat?.round(4)
                                 lon = lon?.round(4)
-                                Timber.d("info request: lat = ${lat} lon = ${lon} ")
+                                Timber.d("info request: lat = $lat lon = $lon ")
 
                                 apiService.getFiveDayForecast(lat!!, lon!!)
                                     .subscribeOn(Schedulers.io())
@@ -222,7 +223,5 @@ class NetworkDbRepoImpl private constructor() : ForecastRepository {
 
 }
 
-//when no location were provided or saved in db
+//when no location was provided or saved in db
 class NoLocationException(msg: String = "No location exist") : RuntimeException(msg)
-
-class NoNetworkException(msg: String = "No network") : RuntimeException(msg)

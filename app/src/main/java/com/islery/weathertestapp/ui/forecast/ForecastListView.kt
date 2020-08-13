@@ -12,8 +12,6 @@ interface ForecastListView : MvpView, BaseMvpView {
     fun submitForecastData(list: List<UiModel>)
     @AddToEndSingle
     fun requestLocation()
-    @Skip
-    fun showNextView(item: WeatherModel)
     @AddToEndSingle
     fun setToolbarLabel(label: String)
     @AddToEndSingle

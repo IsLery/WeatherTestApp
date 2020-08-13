@@ -4,20 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.islery.weathertestapp.R
-import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.HeaderRowBinding
 import com.islery.weathertestapp.databinding.WeatherRowBinding
 import com.islery.weathertestapp.getLocalImageId
 
 class WeatherItemHolder private constructor(
-    private val binding: WeatherRowBinding,
-    private val listener: (weather: WeatherModel) -> Unit
+    private val binding: WeatherRowBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: UiModel.WeatherItem, pos: Int) {
         val wthr = item.model
         val context = binding.root.context
-        binding.root.setOnClickListener { listener(wthr) }
         binding.descrTxt.text = wthr.condition.longDescr
         binding.temperatureTxt.text =
             context.getString(R.string.temp_rv, wthr.condition.temperature)
@@ -33,12 +30,11 @@ class WeatherItemHolder private constructor(
 
     companion object {
         fun create(
-            parent: ViewGroup,
-            listener: (weather: WeatherModel) -> Unit
+            parent: ViewGroup
         ): WeatherItemHolder {
             val binding =
                 WeatherRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return WeatherItemHolder(binding, listener)
+            return WeatherItemHolder(binding)
         }
     }
 }

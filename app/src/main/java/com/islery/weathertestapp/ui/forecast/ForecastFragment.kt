@@ -10,12 +10,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
-import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.FragmentForecastBinding
+import com.islery.weathertestapp.makeSnackbarPeriodic
 import com.islery.weathertestapp.ui.forecast.adapter.CustomItemDecoration
 import com.islery.weathertestapp.ui.forecast.adapter.ForecastAdapter
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
-import com.islery.weathertestapp.makeSnackbarPeriodic
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import timber.log.Timber
@@ -27,7 +26,7 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
 
     private val presenter: ForecastPresenter by moxyPresenter { ForecastPresenter() }
 
-    private val mAdapter = ForecastAdapter { showNextView(it) }
+    private val mAdapter = ForecastAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,10 +81,6 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
 
     override fun hideProgress() {
         binding.progressBar.isVisible = false
-    }
-
-    override fun showNextView(item: WeatherModel) {
-
     }
 
     override fun setToolbarLabel(label: String) {

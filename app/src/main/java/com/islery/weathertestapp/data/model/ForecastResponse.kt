@@ -18,7 +18,6 @@ data class Forecast(
     val wind: Wind = Wind(),
     val rain: Rain = Rain(),
     val snow: Snow? = null,
-    //   val sys: Sys = Sys(),
     val dt_txt: String = ""
 )
 
@@ -58,13 +57,8 @@ class Snow(
 
 data class Main(
     val temp: Double = 0.0,
-//    val temp_min: Double = 0.0,
-//    val temp_max: Double = 0.0,
     val pressure: Double = 0.0,
-//    val sea_level: Double = 0.0,
-//    val grnd_level: Double = 0.0,
     val humidity: Int = 0
-    //   val temp_kf: Int = 0
 )
 
 
@@ -72,7 +66,3 @@ data class Coord(
     val lon: Double = 0.0,
     val lat: Double = 0.0
 )
-
-//data class Sys(
-//    val pod: String = ""
-//)

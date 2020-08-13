@@ -11,7 +11,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.islery.weathertestapp.data.NoLocationException
-import com.islery.weathertestapp.data.NoNetworkException
 import java.util.*
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -47,9 +46,6 @@ fun View.makeSnackbarPeriodic(@StringRes idMessage: Int, duration: Int = Snackba
 //vonveting received exceptions to string resouece ids
 fun Throwable.getErrorId(): Int {
     return when (this) {
-        is NoNetworkException -> {
-            R.string.no_connection
-        }
         is NoLocationException -> {
             R.string.no_location
         }

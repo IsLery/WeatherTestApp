@@ -4,17 +4,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.islery.weathertestapp.data.model.WeatherModel
 
 const val TYPE_HEADER = 110
 const val TYPE_WEATHER = 210
 
-class ForecastAdapter(private val listener: (weather: WeatherModel) -> Unit) :
+class ForecastAdapter :
     ListAdapter<UiModel, RecyclerView.ViewHolder>(UIMODEL_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> HeaderItemHolder.create(parent)
-            TYPE_WEATHER -> WeatherItemHolder.create(parent, listener)
+            TYPE_WEATHER -> WeatherItemHolder.create(parent)
             else -> throw IllegalArgumentException("Wrong view type")
         }
     }

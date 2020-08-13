@@ -32,7 +32,6 @@ abstract class WeatherDatabase : RoomDatabase() {
                     WeatherDatabase::class.java,
                     DATABASE_NAME
                 )
-                    //    .addCallback(DB_CALLBACK)
                     .fallbackToDestructiveMigration()
                     .build()
             }
