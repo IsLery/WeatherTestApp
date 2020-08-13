@@ -180,5 +180,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/windSpeedTxt" />
 
+    <ImageView
+        android:id="@+id/arrowImg"
+        style="@style/arrowIcon"
+        android:layout_marginEnd="@dimen/base_offset"
+        android:src="@drawable/ic_arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/locationTxt"
+        app:layout_constraintEnd_toStartOf="@+id/locationTxt"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

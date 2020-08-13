@@ -14,4 +14,5 @@
     <dimen name="row_time_txt_size">18sp</dimen>
     <dimen name="row_descr_txt_size">16sp</dimen>
     <dimen name="large_offser">32dp</dimen>
+    <dimen name="arrow_icon_size">18dp</dimen>
 </resources>
