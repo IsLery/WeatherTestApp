@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.islery.weathertestapp.R
 
-
+// item decoration with dashed lines and different viewholder types
 class CustomItemDecoration(private val context: Context, orientation: Int) :
     DividerItemDecoration(
         context,

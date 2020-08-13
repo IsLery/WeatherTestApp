@@ -68,5 +68,6 @@ class MainPresenter : MvpPresenter<MainView>() {
             viewState.onPermissionsDenied()
         }
     }
+
 }
 

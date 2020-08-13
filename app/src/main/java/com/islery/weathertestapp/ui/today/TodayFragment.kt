@@ -11,8 +11,8 @@ import com.google.android.gms.location.LocationServices
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.FragmentTodayBinding
-import com.islery.weathertestapp.getLocalImageId
-import com.islery.weathertestapp.makeSnackbarPeriodic
+import com.islery.weathertestapp.utils.getLocalImageId
+import com.islery.weathertestapp.utils.makeSnackbarPeriodic
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import timber.log.Timber

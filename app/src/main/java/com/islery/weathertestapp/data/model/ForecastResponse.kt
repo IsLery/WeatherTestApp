@@ -2,6 +2,8 @@ package com.islery.weathertestapp.data.model
 
 import com.squareup.moshi.Json
 
+//classes based on https://openweathermap.org/ api
+
 data class ForecastResponse(
     val cod: String = "",
     val message: Double = 0.0,

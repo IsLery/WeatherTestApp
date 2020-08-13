@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.databinding.HeaderRowBinding
 import com.islery.weathertestapp.databinding.WeatherRowBinding
-import com.islery.weathertestapp.getLocalImageId
+import com.islery.weathertestapp.utils.getLocalImageId
 
 class WeatherItemHolder private constructor(
     private val binding: WeatherRowBinding

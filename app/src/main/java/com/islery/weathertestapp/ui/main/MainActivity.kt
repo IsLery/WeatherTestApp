@@ -16,14 +16,19 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.databinding.ActivityMainBinding
-import com.islery.weathertestapp.centerToolbarTitle
-import com.islery.weathertestapp.makeSnackbarPeriodic
-import com.islery.weathertestapp.toPx
+import com.islery.weathertestapp.utils.centerToolbarTitle
+import com.islery.weathertestapp.utils.makeSnackbarPeriodic
+import com.islery.weathertestapp.utils.toPx
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import timber.log.Timber
 
-
+/*
+    single activity:
+    since location and netwok state permessions are vital for this app and both fragments,
+    they will be checked in onCreate for config changes and in onResume if app was paused
+    as well this activity will provide data about state of network connection, while on screen
+ */
 class MainActivity : MvpAppCompatActivity(),
     MainView {
 
@@ -33,6 +38,7 @@ class MainActivity : MvpAppCompatActivity(),
 
     private lateinit var cm: ConnectivityManager
 
+    //check whether same instance was restored to check permissions
     private var sameInstanceRestored = false
 
     private val requestPermissionLauncher =

@@ -1,8 +1,9 @@
-package com.islery.weathertestapp.data;
+package com.islery.weathertestapp.utils;
 
+//in api call wind direction is provided in degrees and needs to be converted to numbers
 public class WindDirectionUtils {
     public static String convertDegreeToCardinalDirection(double directionInDegrees){
-        String cardinalDirection = null;
+        String cardinalDirection;
         if( (directionInDegrees >= 348.75) && (directionInDegrees <= 360) ||
                 (directionInDegrees >= 0) && (directionInDegrees <= 11.25)    ){
             cardinalDirection = "N";

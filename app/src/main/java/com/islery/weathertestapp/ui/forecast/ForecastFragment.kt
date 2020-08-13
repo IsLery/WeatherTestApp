@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import com.islery.weathertestapp.databinding.FragmentForecastBinding
-import com.islery.weathertestapp.makeSnackbarPeriodic
+import com.islery.weathertestapp.utils.makeSnackbarPeriodic
 import com.islery.weathertestapp.ui.forecast.adapter.CustomItemDecoration
 import com.islery.weathertestapp.ui.forecast.adapter.ForecastAdapter
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import timber.log.Timber
-
+/*
+fragment with list of forecasts for current location
+ */
 class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
 
     private var _binding: FragmentForecastBinding? = null

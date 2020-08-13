@@ -1,7 +1,7 @@
 package com.islery.weathertestapp.data.model
 
-import com.islery.weathertestapp.data.WindDirectionUtils.convertDegreeToCardinalDirection
-import com.islery.weathertestapp.capitalizeWords
+import com.islery.weathertestapp.utils.WindDirectionUtils.convertDegreeToCardinalDirection
+import com.islery.weathertestapp.utils.capitalizeWords
 import com.squareup.moshi.FromJson
 import kotlin.math.roundToInt
 
@@ -17,6 +17,7 @@ class WeatherMoshiAdapter {
             data.wind.code
         }
         val speed = if (data.wind.speed > 0) (data.wind.speed * 60 / 1000).roundToInt() else 0
+        //there can be different types of percipation in response: rain, snow or none
         val pers = if (data.snow != null) WeatherModel.Percipation(
             "snow",
             data.snow.percipation

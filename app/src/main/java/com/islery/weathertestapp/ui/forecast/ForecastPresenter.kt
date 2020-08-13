@@ -5,7 +5,7 @@ import com.islery.weathertestapp.R
 import com.islery.weathertestapp.WeatherApp
 import com.islery.weathertestapp.data.ForecastRepository
 import com.islery.weathertestapp.data.model.WeatherModel
-import com.islery.weathertestapp.getErrorId
+import com.islery.weathertestapp.utils.getErrorId
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
@@ -26,12 +26,12 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        //first fragment will request new data
+        viewState.showProgress()
+        //first fragment have already requested new data for this location
         getForecast(null)
     }
 
     private fun getForecast(location: Location?) {
-        viewState.showProgress()
         disposable = repo.getForecast(location).subscribeOn(Schedulers.io())
             .map {
                 city = it.city
@@ -45,6 +45,11 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
             }
     }
 
+    /*
+    map data from repository fot ui
+    - convert list timestamps for hour and weekday in default timezone
+    - add headers when weekday changes
+     */
     private fun mapForUi(list: List<WeatherModel>): List<UiModel> {
         val result = mutableListOf<UiModel>()
         val timezone = TimeZone.getDefault()
@@ -71,6 +76,7 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
         return result
     }
 
+    //submit list to adapter
     private fun onGetForecastSuccess(uiList: List<UiModel>) {
         viewState.setToolbarLabel(city)
         if (uiList.isNotEmpty()) {
@@ -90,5 +96,10 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
     fun onLocationReceived(location: Location?) {
         getForecast(location)
         Timber.d("lat: ${location?.latitude}, lon = ${location?.longitude}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }

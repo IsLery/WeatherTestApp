@@ -41,7 +41,9 @@ abstract class WeatherDatabase : RoomDatabase() {
 
 }
 
-
+/*
+dao for forecast information
+ */
 @Dao
 interface WeatherDao {
 
@@ -59,6 +61,9 @@ interface WeatherDao {
 
 }
 
+/*
+dao for infprmation that refers to current forecast request
+ */
 @Dao
 interface CurrInfoDao {
     @Query("SELECT * FROM $CURR_INFO_TABLE LIMIT 1")
@@ -67,7 +72,5 @@ interface CurrInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun updateInfo(info: CurrentInfo): Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDefault(info: CurrentInfo): Completable
 }
 

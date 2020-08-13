@@ -4,7 +4,7 @@ import android.location.Location
 import com.islery.weathertestapp.WeatherApp
 import com.islery.weathertestapp.data.ForecastRepository
 import com.islery.weathertestapp.data.model.SingleWeatherAndLocation
-import com.islery.weathertestapp.getErrorId
+import com.islery.weathertestapp.utils.getErrorId
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -35,8 +35,8 @@ class TodayPresenter : MvpPresenter<TodayView>() {
 
 
     fun onLocationReceived(location: Location?) {
-        getDetail(location)
         Timber.d("lat: ${location?.latitude}, lon = ${location?.longitude}")
+        getDetail(location)
     }
 
     fun onShareRequested() {
@@ -51,9 +51,14 @@ class TodayPresenter : MvpPresenter<TodayView>() {
 
     private fun onGetDetailSuccess(res: SingleWeatherAndLocation) {
         viewState.hideProgress()
-        //devault value with no data
+        //default value with no data
         if (res.city != "--") {
             viewState.submitDetailData(res.model, res.city, res.countryCode)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }
