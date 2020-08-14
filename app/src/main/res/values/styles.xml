@@ -8,6 +8,10 @@
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
     </style>
 
+    <style name="AppTheme.Launcher" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
     <style name="detailInfoIcon" parent="rowIcon">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
