@@ -5,6 +5,7 @@ import android.net.NetworkCapabilities
 import com.islery.weathertestapp.WeatherApp
 import com.islery.weathertestapp.data.ForecastRepository
 import moxy.MvpPresenter
+import timber.log.Timber
 
 class MainPresenter : MvpPresenter<MainView>() {
     private val repo: ForecastRepository = WeatherApp.provideRepo()
@@ -15,12 +16,12 @@ class MainPresenter : MvpPresenter<MainView>() {
         viewState.checkPermissions()
     }
 
-    fun onPauseCalled() {
+    fun onStopCalled() {
         viewState.unregisterNetworkCallback()
     }
 
-    fun onResumeCalled(oldInstance: Boolean) {
-        if (oldInstance) {
+    fun onResumeCalled(oldInstance: Boolean, permDialogLaunched: Boolean) {
+        if (!permDialogLaunched && oldInstance) {
             viewState.checkPermissions()
         }
     }
@@ -32,6 +33,7 @@ class MainPresenter : MvpPresenter<MainView>() {
     }
 
     fun onPermissionsCheck(granted: Boolean) {
+        Timber.d("checking permissions")
         if (!granted) {
             viewState.requirePermissions()
         } else {

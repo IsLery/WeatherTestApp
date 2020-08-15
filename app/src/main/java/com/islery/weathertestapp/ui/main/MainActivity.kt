@@ -1,5 +1,6 @@
 package com.islery.weathertestapp.ui.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -14,10 +15,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.databinding.ActivityMainBinding
 import com.islery.weathertestapp.utils.centerToolbarTitle
-import com.islery.weathertestapp.utils.makeSnackbarPeriodic
 import com.islery.weathertestapp.utils.toPx
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
@@ -40,6 +41,9 @@ class MainActivity : MvpAppCompatActivity(),
 
     //check whether same instance was restored to check permissions
     private var sameInstanceRestored = false
+
+    //prevent launching dialog twice, when the app is back from onStop
+    private var permissionsDialogLaunched = false
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
@@ -130,8 +134,13 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun onPermissionsDenied() {
-        binding.root.makeSnackbarPeriodic(R.string.no_permissions)
-        this.finish()
+        Snackbar.make(
+            binding.root,
+            "Your GPS seems to be disabled, would you like to enable it?",
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction("OK") { startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
+            .show()
     }
 
     override fun checkPermissions() {
@@ -151,16 +160,26 @@ class MainActivity : MvpAppCompatActivity(),
     override fun onResume() {
         super.onResume()
         Timber.d("same instance restored $sameInstanceRestored")
-        presenter.onResumeCalled(sameInstanceRestored)
+        presenter.onResumeCalled(sameInstanceRestored, permissionsDialogLaunched)
+        permissionsDialogLaunched = false
+        sameInstanceRestored = false
     }
 
     override fun onPause() {
+        Timber.d("on pause")
         super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.d("onStop")
+        presenter.onStopCalled()
         sameInstanceRestored = true
-        presenter.onPauseCalled()
     }
 
     override fun requirePermissions() {
+        Timber.d("require permissions")
+        permissionsDialogLaunched = true
         requestPermissionLauncher.launch(
             arrayOf(
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,
