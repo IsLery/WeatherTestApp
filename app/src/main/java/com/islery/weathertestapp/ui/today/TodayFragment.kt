@@ -1,13 +1,16 @@
 package com.islery.weathertestapp.ui.today
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
 import androidx.core.view.isVisible
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.databinding.FragmentTodayBinding
@@ -44,17 +47,17 @@ class TodayFragment : MvpAppCompatFragment(), TodayView {
 
     override fun submitDetailData(model: WeatherModel, city: String, country: String) {
         model.condition
-            binding.locationTxt.text = getString(R.string.locat_det, city, country)
-            binding.temperatureTxt.text =
-                getString(R.string.temp_det, model.condition.temperature, model.condition.condName)
-            binding.humidityTxt.text = getString(R.string.humid_det, model.condition.humidity)
-            binding.precipitationTxt.text =
-                getString(R.string.persip_det, model.condition.percipation.value)
-            binding.pressureTxt.text = getString(R.string.press_det, model.condition.pressure)
-            binding.windSpeedTxt.text = getString(R.string.wind_det, model.condition.windSpeed)
-            binding.windDirectionTxt.text = model.condition.windDirection
-            val id = model.iconMain.getLocalImageId(requireContext())
-            binding.weatherImg.setImageResource(id)
+        binding.locationTxt.text = getString(R.string.locat_det, city, country)
+        binding.temperatureTxt.text =
+            getString(R.string.temp_det, model.condition.temperature, model.condition.condName)
+        binding.humidityTxt.text = getString(R.string.humid_det, model.condition.humidity)
+        binding.precipitationTxt.text =
+            getString(R.string.persip_det, model.condition.percipation.value)
+        binding.pressureTxt.text = getString(R.string.press_det, model.condition.pressure)
+        binding.windSpeedTxt.text = getString(R.string.wind_det, model.condition.windSpeed)
+        binding.windDirectionTxt.text = model.condition.windDirection
+        val id = model.iconMain.getLocalImageId(requireContext())
+        binding.weatherImg.setImageResource(id)
     }
 
     @SuppressLint("MissingPermission")
@@ -78,6 +81,21 @@ class TodayFragment : MvpAppCompatFragment(), TodayView {
 
     override fun hideProgress() {
         binding.progressBar.isVisible = false
+    }
+
+    override fun askSettings() {
+        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+
+    }
+
+    override fun onLocationError() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.enable_gps),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(getString(R.string.ok)) { presenter.snackbarButtonClicked() }
+            .show()
     }
 
     override fun shareForecast() {

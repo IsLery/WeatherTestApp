@@ -1,6 +1,5 @@
 package com.islery.weathertestapp.ui.main
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -15,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.databinding.ActivityMainBinding
@@ -134,13 +134,13 @@ class MainActivity : MvpAppCompatActivity(),
     }
 
     override fun onPermissionsDenied() {
-        Snackbar.make(
-            binding.root,
-            "Your GPS seems to be disabled, would you like to enable it?",
-            Snackbar.LENGTH_INDEFINITE
-        )
-            .setAction("OK") { startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
-            .show()
+        Snackbar.make(binding.root, R.string.no_permissions, Snackbar.LENGTH_LONG)
+            .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    this@MainActivity.finish()
+                }
+            }).show()
     }
 
     override fun checkPermissions() {

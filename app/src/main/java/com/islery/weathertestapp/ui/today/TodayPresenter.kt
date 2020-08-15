@@ -3,6 +3,7 @@ package com.islery.weathertestapp.ui.today
 import android.location.Location
 import com.islery.weathertestapp.WeatherApp
 import com.islery.weathertestapp.data.ForecastRepository
+import com.islery.weathertestapp.data.NoLocationException
 import com.islery.weathertestapp.data.model.SingleWeatherAndLocation
 import com.islery.weathertestapp.utils.getErrorId
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -45,8 +46,16 @@ class TodayPresenter : MvpPresenter<TodayView>() {
 
     private fun onGetDetailError(e: Throwable) {
         e.printStackTrace()
-        val msgId = e.getErrorId()
-        viewState.showError(msgId)
+        if(e is NoLocationException){
+            viewState.onLocationError()
+        }else {
+            val msgId = e.getErrorId()
+            viewState.showError(msgId)
+        }
+    }
+
+    fun snackbarButtonClicked(){
+        viewState.askSettings()
     }
 
     private fun onGetDetailSuccess(res: SingleWeatherAndLocation) {

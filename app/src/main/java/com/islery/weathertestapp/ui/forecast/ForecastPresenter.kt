@@ -4,6 +4,7 @@ import android.location.Location
 import com.islery.weathertestapp.R
 import com.islery.weathertestapp.WeatherApp
 import com.islery.weathertestapp.data.ForecastRepository
+import com.islery.weathertestapp.data.NoLocationException
 import com.islery.weathertestapp.data.model.WeatherModel
 import com.islery.weathertestapp.utils.getErrorId
 import com.islery.weathertestapp.ui.forecast.adapter.UiModel
@@ -85,8 +86,13 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
     }
 
     private fun onGetForecastError(e: Throwable) {
-        val msgId = e.getErrorId()
-        viewState.showError(msgId)
+        e.printStackTrace()
+        if(e is NoLocationException){
+            viewState.onLocationError()
+        }else {
+            val msgId = e.getErrorId()
+            viewState.showError(msgId)
+        }
     }
 
     fun onRefresh() {
@@ -96,6 +102,11 @@ class ForecastPresenter : MvpPresenter<ForecastListView>() {
     fun onLocationReceived(location: Location?) {
         getForecast(location)
         Timber.d("lat: ${location?.latitude}, lon = ${location?.longitude}")
+    }
+
+
+    fun snackbarButtonClicked(){
+        viewState.askSettings()
     }
 
     override fun onDestroy() {

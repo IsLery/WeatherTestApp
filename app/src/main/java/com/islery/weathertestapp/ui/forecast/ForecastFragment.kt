@@ -1,7 +1,9 @@
 package com.islery.weathertestapp.ui.forecast
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
+import com.islery.weathertestapp.R
 import com.islery.weathertestapp.databinding.FragmentForecastBinding
 import com.islery.weathertestapp.utils.makeSnackbarPeriodic
 import com.islery.weathertestapp.ui.forecast.adapter.CustomItemDecoration
@@ -91,5 +95,20 @@ class ForecastFragment : MvpAppCompatFragment(), ForecastListView {
 
     override fun endRefreshing() {
         binding.swipe.isRefreshing = false
+    }
+
+    override fun askSettings() {
+        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+
+    }
+
+    override fun onLocationError() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.enable_gps),
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(getString(R.string.ok)) { presenter.snackbarButtonClicked() }
+            .show()
     }
 }

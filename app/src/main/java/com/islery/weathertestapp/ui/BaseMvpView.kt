@@ -13,4 +13,10 @@ interface BaseMvpView : MvpView {
 
     @AddToEndSingle
     fun hideProgress()
+
+    @AddToEndSingle
+    fun askSettings()
+
+    @Skip
+    fun onLocationError()
 }
