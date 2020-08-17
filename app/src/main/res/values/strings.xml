@@ -27,4 +27,6 @@ Current weather in %1$s -  %2$s.
 \n<li>Wind speed – %6$s.</li>
 \n<li>Wind direction - %7$s.</li>
        </string>
+    <string name="enable_gps">Your GPS seems to be disabled, would you like to enable it?</string>
+    <string name="ok">OK</string>
 </resources>

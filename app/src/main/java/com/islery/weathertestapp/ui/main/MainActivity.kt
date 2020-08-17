@@ -136,10 +136,10 @@ class MainActivity : MvpAppCompatActivity(),
     override fun onPermissionsDenied() {
         Snackbar.make(
             binding.root,
-            "Your GPS seems to be disabled, would you like to enable it?",
+            getString(R.string.enable_gps),
             Snackbar.LENGTH_INDEFINITE
         )
-            .setAction("OK") { startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
+            .setAction(getString(R.string.ok)) { startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)) }
             .show()
     }
 
